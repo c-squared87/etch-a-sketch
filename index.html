@@ -1,45 +1,19 @@
 <html>
 
 <style>
-    /* .cell {
-        border: 1px solid black;
-        /* background-color: blue; */
-    /*      width: 20px;
-        height: 20px;
-    }
-
-    #row {
-        float: left;
-    }
-
-    #wrapper {
-        width: 500px;
-        height: 500px;
-        align-items: stretch;
-
-    } */
-
-    /* 
-    .active {
-        background-color: red;
-    }
-
-    .button {
-        float: right;
-    } */
-    /* .wrapper {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-    } */
-
     :root {
-        --main-bkg-color: red;
+        --main-bkg-color: #eee;
         --columnNum: 2;
     }
 
     .wrapper {
         display: grid;
+        background-color: darkred;
+        border: 4px solid black;
+        width: 50%;
         grid-template-columns: repeat(var(--columnNum), auto);
+        grid-auto-rows: minmax(50px, auto);
+        grid-auto-columns: minmax(50px, grid-auto-columns);
     }
 
     div.wrapper {
@@ -49,113 +23,65 @@
     .cell {
         background: var(--main-bkg-color);
         border: 1px solid black;
-
+        width: 100%;
     }
 </style>
 
 <body>
-    <div class="wrapper">
-        <!-- <button class="button" onclick="initBoard()">Clickme to init</button> -->
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-        <div class="cell">Hellos.</div>
-
+    <div id="header">
+        <button id="reset-button" onclick="resetBoard()">Reset</button>
     </div>
+
+    <div class="wrapper" id="wrapper"> </div>
 </body>
 
 <script>
-    var board_Width = 15;
-    var board_Height = 15;
+
+    function resetBoard() {
+
+        var _elems = document.querySelectorAll('.cell');
+
+        [].forEach.call(_elems, function (el) {
+            el.style.backgroundColor = 'white';
+        });
+
+    }
+
+    const applyColorTool = (element) => {
+        element.style.backgroundColor = 'black';
+    };
 
     function init() {
-        /*
-        get params for size
-        *create wrapper
-        -add style - pass in size for cols.
 
-        generate cells.
-        */
+        const _num = prompt('How big should the board be?', '12');
 
-        const _num = prompt('How big should the board be?');
-
-        board_Height = _num;
-        board_Width = _num;
-
-        let wrapper = document.getElementById('wrapper');
+        const wrapper = document.getElementById('wrapper');
 
         let _styles = window.getComputedStyle(document.querySelector("html"));
         let rowNum = parseInt(_styles.getPropertyValue("--columnNum"));
 
         document.documentElement.style.setProperty("--columnNum", _num);
 
-        // const _stringForColumns = 'repeat(' + board_Height + ')';
-        // console.log(_stringForColumns);1
+        for (var i = 0; i < _num * _num; i++) {
 
+            var cell = document.createElement('div');
+
+            cell.id = 'cell';
+            cell.classList.add('cell');
+
+            wrapper.appendChild(cell);
+        }
+
+        wrapper.addEventListener('mouseover', (e) => {
+            if (e.target.classList.contains('cell')) {
+                applyColorTool(e.target);
+            }
+        });
+
+        resetBoard();
     }
 
     init();
-
-    // function initBoard() {
-    //     const wrapper = document.getElementById('wrapper');
-
-    //     for (var x = 0; x < board_Width; x++) {
-
-    //         const row = document.createElement('div');
-
-    //         row.id = 'row';
-
-    //         for (var y = 0; y < board_Height; y++) {
-
-    //             var cell = document.createElement('div');
-
-    //             cell.id = 'cell' + x + y;
-    //             cell.classList.add('cell');
-
-    //             row.appendChild(cell);
-    //         }
-
-    //         wrapper.appendChild(row);
-    //     }
-
-
-    //     wrapper.addEventListener('mouseover', (e) => {
-    //         if (e.target.classList.contains('cell')) {
-    //             applyBlackTool(e.target);
-    //         }
-    //     });
-
-    // }
-
-    // const applyBlackTool = (element) => {
-    //     element.style.backgroundColor = 'black';
-    // };
-
-
-    // function resetBoard() {
-    //     const _num = prompt('How big should the board be?');
-
-    //     board_Height = _num;
-    //     board_Width = _num;
-    // }
-
-    // resetBoard();
-
-    // initBoard();
 </script>
 
 </html>
