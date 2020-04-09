@@ -10,30 +10,32 @@
         --columnNum: 2;
     }
 
-    .header {
-        display: grid;
+    body {
+        background-color: #eee;
+    }
+
+    .bottom-text {
         width: 50%;
+        text-align: center;
     }
 
-    .center {
-        margin: auto;
-    }
-
-    .wrapper {
-        display: grid;
-        background-color: darkred;
-        border: 4px solid black;
-        width: 50%;
-        grid-template-columns: repeat(var(--columnNum), auto);
-    }
-
-    div.wrapper {
+    .button {
+        background-color: white;
+        border: none;
         padding: 1em;
+        text-align: center;
+        text-decoration: none;
+        /* display: inline-block; */
+        font-size: 10px;
     }
 
     .cell {
         background: var(--main-bkg-color);
         border: 1px solid black;
+    }
+
+    .center {
+        margin: auto;
     }
 
     .grid {
@@ -62,21 +64,52 @@
         background: rgba(0, 0, 0, 0.1);
         border: 1px white solid;
     }
+
+    .header {
+        display: grid;
+        width: 50%;
+    }
+
+    .wrapper {
+        display: grid;
+        background-color: darkred;
+        border: 4px solid black;
+        width: 50%;
+        grid-template-columns: repeat(var(--columnNum), auto);
+    }
+
+    div.wrapper {
+        padding: 1em;
+    }
+
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        display: inline;
+    }
 </style>
 
 <body>
-    <div class="header center" id="header">
-        <button id="reset-button" onclick="resetBoard()">Reset</button>
-        <button id="new-button" onclick="init()">New</button>
+    <div class="wrapper header center" id="header">
+        <ul>
+            <li><button class="button" id="reset-button" onclick="resetBoard()">ERASE</button></li>
+            <li><button class="button" id="new-button" onclick="init()">NEW PAD</button></li>
+        </ul>
     </div>
 
-    <div class="wrapper grid center" id="wrapper">
+    <div class="wrapper grid center" id="wrapper"> </div>
 
+    <div class="bottom-text center">
+        <h5>Made by <a href="https://github.com/c-squared87/etch-a-sketch">Craig.</a></h5>
     </div>
 </body>
 
 <script>
-
+    // gives all cells a white BKG.
     function resetBoard() {
 
         var _elems = document.querySelectorAll('.cell');
@@ -84,14 +117,27 @@
         [].forEach.call(_elems, function (el) {
             el.style.backgroundColor = 'white';
         });
-
     }
 
+    // wipes all current cells from existence.
+    function clearBoard() {
+
+        var _cells = document.getElementsByClassName('cell');
+
+        while (_cells.length > 0) {
+            _cells[0].parentNode.removeChild(_cells[0]);
+        }
+    }
+
+    // TODO: Maybe have this change colors?
     const applyColorTool = (element) => {
         element.style.backgroundColor = 'black';
     };
 
+    // This does most of the things.
     function init() {
+
+        clearBoard();
 
         const _num = prompt('How big should the board be?', '16');
 
